@@ -182,16 +182,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - 🐛 Issues: [GitHub Issues](https://github.com/kifayathussain/mcsa/issues)
 - 📖 Documentation: [Project Wiki](https://github.com/kifayathussain/mcsa/wiki)
 
-## 🗺 Roadmap
-
-See [TODO.md](TODO.md) for the complete development roadmap with 20 phases covering:
-- Enhanced channel integrations
-- Advanced analytics and reporting
-- Customer management (CRM)
-- Shipping and fulfillment
-- Returns and refunds
-- And much more!
 
 ---
 
 **Built with ❤️ by [kifayathussain](https://github.com/kifayathussain)**
+
