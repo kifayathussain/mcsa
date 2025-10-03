@@ -13,7 +13,7 @@ export default function HomePage() {
             <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary">
               <Package className="h-4 w-4 text-primary-foreground" />
             </div>
-            <span className="text-lg font-semibold tracking-tight">MultiChannel</span>
+            <span className="text-lg font-semibold tracking-tight">WAS-Holding</span>
           </div>
           <div className="flex items-center gap-3">
             <ThemeToggle />

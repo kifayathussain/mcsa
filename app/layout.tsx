@@ -8,7 +8,7 @@ import { Suspense } from "react"
 import { ThemeProvider } from "@/components/theme-provider"
 
 export const metadata: Metadata = {
-  title: "MultiChannel - E-commerce Management Platform",
+  title: "WAS-Holding - E-commerce Management Platform",
   description: "Manage your multi-channel e-commerce operations across Amazon, eBay, Etsy, and more",
   generator: "v0.app",
 }

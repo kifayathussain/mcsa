@@ -35,7 +35,7 @@ export function DashboardSidebar() {
             <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary">
               <Package className="h-4 w-4 text-primary-foreground" />
             </div>
-            <span className="text-base font-semibold tracking-tight">MultiChannel</span>
+            <span className="text-base font-semibold tracking-tight">WAS-Holding</span>
           </Link>
         </div>
 
