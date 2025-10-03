@@ -14,7 +14,11 @@ interface Product {
   id: string
   sku: string
   title: string
+  description: string | null
   price: number
+  cost: number | null
+  brand: string | null
+  weight: number | null
   status: string
   category: string | null
   product_listings: Array<{

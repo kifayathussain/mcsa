@@ -14,12 +14,18 @@ interface Order {
   external_order_id: string
   customer_name: string
   customer_email: string | null
+  customer_phone: string | null
+  shipping_address: any
   order_status: string
   payment_status: string
   total_amount: number
+  tax_amount: number
+  shipping_amount: number
+  discount_amount: number
   order_date: string
   tracking_number: string | null
   carrier: string | null
+  notes: string | null
   channels: {
     channel_type: string
     channel_name: string

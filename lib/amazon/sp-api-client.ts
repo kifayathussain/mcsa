@@ -53,6 +53,10 @@ export class AmazonSPAPIClient {
     this.accessToken = data.access_token
     this.tokenExpiry = Date.now() + data.expires_in * 1000 - 60000 // Refresh 1 min before expiry
 
+    if (!this.accessToken) {
+      throw new Error("Failed to get access token from response")
+    }
+
     return this.accessToken
   }
 
