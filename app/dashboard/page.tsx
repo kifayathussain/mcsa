@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
-import { DashboardHeader } from "@/components/dashboard/dashboard-header"
 import { MetricsCards } from "@/components/dashboard/metrics-cards"
 import { SalesChart } from "@/components/dashboard/sales-chart"
 import { RecentOrders } from "@/components/dashboard/recent-orders"
@@ -58,11 +57,8 @@ export default async function DashboardPage() {
   const orderStatusData = calculateOrderStatus(orders)
 
   return (
-    <div className="flex min-h-screen bg-neutral-50">
-      <main className="flex-1 p-6 lg:p-8 max-w-[1600px] mx-auto w-full">
-        <DashboardHeader userName={user.email || "User"} />
-
-        <div className="mt-6 space-y-6">
+    <main className="p-6 lg:p-8 max-w-[1600px] mx-auto w-full">
+        <div className="space-y-6">
           <MetricsCards
             totalRevenue={totalRevenue}
             totalOrders={totalOrders}
@@ -89,7 +85,6 @@ export default async function DashboardPage() {
           <RecentOrders orders={recentOrders} />
         </div>
       </main>
-    </div>
   )
 }
 

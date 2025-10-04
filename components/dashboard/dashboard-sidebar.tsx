@@ -3,10 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { LayoutDashboard, Package, ShoppingCart, Warehouse, Settings, Link2, LogOut } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { createClient } from "@/lib/supabase/client"
-import { useRouter } from "next/navigation"
+import { LayoutDashboard, Package, ShoppingCart, Warehouse, Settings, Link2 } from "lucide-react"
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -19,16 +16,9 @@ const navigation = [
 
 export function DashboardSidebar() {
   const pathname = usePathname()
-  const router = useRouter()
-
-  const handleSignOut = async () => {
-    const supabase = createClient()
-    await supabase.auth.signOut()
-    router.push("/auth/login")
-  }
 
   return (
-    <aside className="w-64 border-r border-border bg-card">
+    <aside className="w-64 border-r border-border bg-card sticky top-0 h-screen">
       <div className="flex h-full flex-col">
         <div className="flex h-14 items-center border-b border-border px-4">
           <Link href="/dashboard" className="flex items-center gap-2.5">
@@ -60,16 +50,6 @@ export function DashboardSidebar() {
           })}
         </nav>
 
-        <div className="border-t border-border p-3">
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 text-sm text-muted-foreground hover:bg-accent/50 hover:text-foreground"
-            onClick={handleSignOut}
-          >
-            <LogOut className="h-4 w-4" />
-            Sign Out
-          </Button>
-        </div>
       </div>
     </aside>
   )
