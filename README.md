@@ -66,6 +66,32 @@ AMAZON_REFRESH_TOKEN=your_amazon_refresh_token
 AMAZON_SELLER_ID=your_amazon_seller_id
 AMAZON_MARKETPLACE_ID=your_amazon_marketplace_id
 
+# eBay Configuration
+EBAY_ENV=SANDBOX # or PRODUCTION
+EBAY_CLIENT_ID=your_ebay_app_id
+EBAY_CLIENT_SECRET=your_ebay_cert_id
+EBAY_REDIRECT_URI=your_ebay_redirect_uri
+# Optional: space-separated scopes override
+# EBAY_SCOPE="https://api.ebay.com/oauth/api_scope https://api.ebay.com/oauth/api_scope/sell.inventory"
+
+# Etsy Configuration
+ETSY_ENV=SANDBOX # or PRODUCTION
+ETSY_CLIENT_ID=your_etsy_client_id
+ETSY_CLIENT_SECRET=your_etsy_client_secret
+ETSY_REDIRECT_URI=your_etsy_redirect_uri
+# Optional: space-separated scopes override
+# ETSY_SCOPE="listings_r listings_w shops_r shops_w transactions_r transactions_w"
+
+# Shopify Configuration
+SHOPIFY_SHOP_URL=your_shop.myshopify.com
+SHOPIFY_ACCESS_TOKEN=your_admin_api_access_token
+SHOPIFY_API_VERSION=2024-01
+
+# Walmart Configuration
+WALMART_CLIENT_ID=your_walmart_client_id
+WALMART_CLIENT_SECRET=your_walmart_client_secret
+WALMART_ENV=SANDBOX # or PRODUCTION
+
 # Optional: Analytics
 NEXT_PUBLIC_VERCEL_ANALYTICS_ID=your_analytics_id
 ```

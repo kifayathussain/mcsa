@@ -8,6 +8,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useState } from "react"
 import { DeleteChannelDialog } from "./delete-channel-dialog"
 import { AmazonSyncButton } from "./amazon-sync-button"
+import { ChannelSyncButtons } from "./channel-sync-buttons"
 
 interface Channel {
   id: string
@@ -95,6 +96,13 @@ export function ChannelsList({ channels }: ChannelsListProps) {
                       <AmazonSyncButton channelId={channel.id} syncType="orders" />
                       <AmazonSyncButton channelId={channel.id} syncType="inventory" />
                     </div>
+                  )}
+                  {(channel.channel_type === "ebay" || channel.channel_type === "etsy" || channel.channel_type === "shopify" || channel.channel_type === "walmart") && (
+                    <ChannelSyncButtons
+                      channelId={channel.id}
+                      channelType={channel.channel_type}
+                      lastSyncAt={channel.last_sync_at || undefined}
+                    />
                   )}
                 </div>
               </CardContent>

@@ -97,6 +97,15 @@ export function AddChannelDialog({ channelType, open, onOpenChange }: AddChannel
     setError(null)
 
     try {
+      // For eBay and Etsy, redirect to OAuth flow
+      if (channelType === "ebay" || channelType === "etsy") {
+        const state = Math.random().toString(36).substring(7)
+        const oauthUrl = `/api/${channelType}/oauth?state=${state}`
+        window.location.href = oauthUrl
+        return
+      }
+
+      // For other channels, use manual credential entry
       const supabase = createClient()
       const {
         data: { user },
@@ -137,34 +146,53 @@ export function AddChannelDialog({ channelType, open, onOpenChange }: AddChannel
           <DialogDescription>Enter your {config.name} API credentials to connect your account</DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit}>
-          <div className="grid gap-4 py-4">
-            {config.fields.map((field) => (
-              <div key={field.key} className="grid gap-2">
-                <Label htmlFor={field.key}>{field.label}</Label>
-                <Input
-                  id={field.key}
-                  type={field.type}
-                  placeholder={field.placeholder}
-                  value={formData[field.key]}
-                  onChange={(e) => setFormData({ ...formData, [field.key]: e.target.value })}
-                  required
-                />
-              </div>
-            ))}
-
-            {error && <p className="text-sm text-destructive">{error}</p>}
+        {(channelType === "ebay" || channelType === "etsy") ? (
+          <div className="py-4">
+            <div className="text-center space-y-4">
+              <p className="text-sm text-muted-foreground">
+                Click the button below to authorize {config.name} access. You'll be redirected to {config.name} to complete the connection.
+              </p>
+              {error && <p className="text-sm text-destructive">{error}</p>}
+            </div>
+            <DialogFooter>
+              <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isLoading}>
+                Cancel
+              </Button>
+              <Button onClick={handleSubmit} disabled={isLoading}>
+                {isLoading ? "Redirecting..." : `Connect to ${config.name}`}
+              </Button>
+            </DialogFooter>
           </div>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <div className="grid gap-4 py-4">
+              {config.fields.map((field) => (
+                <div key={field.key} className="grid gap-2">
+                  <Label htmlFor={field.key}>{field.label}</Label>
+                  <Input
+                    id={field.key}
+                    type={field.type}
+                    placeholder={field.placeholder}
+                    value={formData[field.key]}
+                    onChange={(e) => setFormData({ ...formData, [field.key]: e.target.value })}
+                    required
+                  />
+                </div>
+              ))}
 
-          <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isLoading}>
-              Cancel
-            </Button>
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Connecting..." : "Connect Channel"}
-            </Button>
-          </DialogFooter>
-        </form>
+              {error && <p className="text-sm text-destructive">{error}</p>}
+            </div>
+
+            <DialogFooter>
+              <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isLoading}>
+                Cancel
+              </Button>
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? "Connecting..." : "Connect Channel"}
+              </Button>
+            </DialogFooter>
+          </form>
+        )}
       </DialogContent>
     </Dialog>
   )
