@@ -87,7 +87,17 @@ export class ShopifyRestClient {
 
   // Inventory API
   async getInventoryLevels(params?: { inventory_item_ids?: string[]; location_ids?: string[] }) {
-    return this.apiRequest<{ inventory_levels: any[] }>("GET", "/inventory_levels.json", { query: params })
+    // Convert arrays to comma-separated strings for Shopify API
+    const queryParams: Record<string, string | number | boolean | undefined> = {}
+    if (params) {
+      if (params.inventory_item_ids) {
+        queryParams.inventory_item_ids = params.inventory_item_ids.join(',')
+      }
+      if (params.location_ids) {
+        queryParams.location_ids = params.location_ids.join(',')
+      }
+    }
+    return this.apiRequest<{ inventory_levels: any[] }>("GET", "/inventory_levels.json", { query: queryParams })
   }
 
   async updateInventoryLevel(inventoryItemId: string, locationId: string, quantity: number) {
