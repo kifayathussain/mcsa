@@ -2,17 +2,19 @@ import { NextRequest, NextResponse } from "next/server"
 import { createEtsyClientFromEnv } from "@/lib/etsy/rest-client"
 import { createClient as createSupabaseServerClient } from "@/lib/supabase/server"
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(req: NextRequest) {
-  const client = createEtsyClientFromEnv()
-  const url = new URL(req.url)
-  const code = url.searchParams.get("code")
-  const state = url.searchParams.get("state")
-
-  if (!code) {
-    return NextResponse.json({ error: "Missing authorization code" }, { status: 400 })
-  }
-
   try {
+    const client = createEtsyClientFromEnv()
+    const url = new URL(req.url)
+    const code = url.searchParams.get("code")
+    const state = url.searchParams.get("state")
+
+    if (!code) {
+      return NextResponse.json({ error: "Missing authorization code" }, { status: 400 })
+    }
+
     const tokens = await client.exchangeCodeForTokens(code)
     const supabase = await createSupabaseServerClient()
     const {
@@ -64,6 +66,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ ok: true, state })
   } catch (err: any) {
+    console.error("Etsy OAuth callback error:", err)
     return NextResponse.json({ error: err?.message || "Token exchange failed" }, { status: 500 })
   }
 }

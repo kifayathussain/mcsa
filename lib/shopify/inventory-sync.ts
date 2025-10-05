@@ -1,4 +1,4 @@
-import { ShopifyRestClient } from "@/lib/shopify/rest-client"
+import { ShopifyRestClient, createShopifyClientFromCredentials } from "@/lib/shopify/rest-client"
 import { createClient as createSupabaseServerClient } from "@/lib/supabase/server"
 
 type ShopifyProduct = any

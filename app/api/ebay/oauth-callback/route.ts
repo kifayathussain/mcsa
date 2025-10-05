@@ -2,17 +2,19 @@ import { NextRequest, NextResponse } from "next/server"
 import { createEbayClientFromEnv } from "@/lib/ebay/rest-client"
 import { createClient as createSupabaseServerClient } from "@/lib/supabase/server"
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(req: NextRequest) {
-  const client = createEbayClientFromEnv()
-  const url = new URL(req.url)
-  const code = url.searchParams.get("code")
-  const state = url.searchParams.get("state")
-
-  if (!code) {
-    return NextResponse.json({ error: "Missing authorization code" }, { status: 400 })
-  }
-
   try {
+    const client = createEbayClientFromEnv()
+    const url = new URL(req.url)
+    const code = url.searchParams.get("code")
+    const state = url.searchParams.get("state")
+
+    if (!code) {
+      return NextResponse.json({ error: "Missing authorization code" }, { status: 400 })
+    }
+
     const tokens = await client.exchangeCodeForTokens(code)
     const supabase = await createSupabaseServerClient()
     const {
@@ -64,6 +66,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ ok: true, state })
   } catch (err: any) {
+    console.error("eBay OAuth callback error:", err)
     return NextResponse.json({ error: err?.message || "Token exchange failed" }, { status: 500 })
   }
 }

@@ -1,4 +1,4 @@
-import { WalmartRestClient } from "@/lib/walmart/rest-client"
+import { WalmartRestClient, createWalmartClientFromCredentials } from "@/lib/walmart/rest-client"
 import { createClient as createSupabaseServerClient } from "@/lib/supabase/server"
 
 type WalmartOrder = any
