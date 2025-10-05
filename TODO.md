@@ -115,18 +115,18 @@
 - [x] Order Fulfillment Time
 
 ### Custom Reports
-- [ ] Report Builder Interface
-- [ ] Scheduled Report Generation
-- [ ] Export Reports (PDF, CSV, Excel)
-- [ ] Email Report Delivery
-- [ ] Report Templates Library
+- [x] Report Builder Interface
+- [x] Scheduled Report Generation
+- [x] Export Reports (PDF, CSV, Excel)
+- [x] Email Report Delivery
+- [x] Report Templates Library
 
 ### Data Visualization
-- [ ] Interactive Charts & Graphs
-- [ ] Real-time Dashboard Updates
-- [ ] Custom Date Range Selection
-- [ ] Comparison Views (YoY, MoM)
-- [ ] Export Chart Images
+- [x] Interactive Charts & Graphs
+- [x] Real-time Dashboard Updates
+- [x] Custom Date Range Selection
+- [x] Comparison Views (YoY, MoM)
+- [x] Export Chart Images
 
 ---
 
