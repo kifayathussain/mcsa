@@ -78,8 +78,8 @@ export class ShopifyRestClient {
       console.error("Fetch error details:", {
         url: url.toString(),
         method,
-        error: error.message,
-        cause: error.cause
+        error: error instanceof Error ? error.message : String(error),
+        cause: error instanceof Error ? error.cause : undefined
       })
       throw error
     }
