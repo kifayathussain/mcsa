@@ -24,9 +24,12 @@ export class ShopifyRestClient {
   }
 
   private getApiUrl(path: string): string {
-    return SHOPIFY_API_BASE
+    const url = SHOPIFY_API_BASE
       .replace("{shop}", this.shopDomain)
       .replace("{version}", this.apiVersion) + path
+    
+    console.log("Constructed Shopify API URL:", url)
+    return url
   }
 
   async apiRequest<T = unknown>(
@@ -53,18 +56,33 @@ export class ShopifyRestClient {
       for (const [k, v] of Object.entries(options.headers)) headers.set(k, v)
     }
 
-    const response = await fetch(url.toString(), {
-      method,
-      headers,
-      body: options?.body ? JSON.stringify(options.body) : undefined,
-    })
+    console.log(`Making ${method} request to:`, url.toString())
+    console.log("Headers:", Object.fromEntries(headers.entries()))
 
-    if (!response.ok) {
-      const errorText = await response.text()
-      throw new Error(`Shopify API request failed: ${response.status} ${errorText}`)
+    try {
+      const response = await fetch(url.toString(), {
+        method,
+        headers,
+        body: options?.body ? JSON.stringify(options.body) : undefined,
+      })
+
+      if (!response.ok) {
+        const errorText = await response.text()
+        console.error(`Shopify API request failed: ${response.status} ${response.statusText}`)
+        console.error("Error response:", errorText)
+        throw new Error(`Shopify API request failed: ${response.status} ${errorText}`)
+      }
+
+      return (await response.json()) as T
+    } catch (error) {
+      console.error("Fetch error details:", {
+        url: url.toString(),
+        method,
+        error: error.message,
+        cause: error.cause
+      })
+      throw error
     }
-
-    return (await response.json()) as T
   }
 
   // Orders API
@@ -112,9 +130,39 @@ export class ShopifyRestClient {
 }
 
 export function createShopifyClientFromCredentials(credentials: any): ShopifyRestClient {
+  if (!credentials) {
+    throw new Error("Credentials object is required")
+  }
+  
+  const shopDomain = credentials.shop_url || credentials.shopDomain
+  const accessToken = credentials.access_token || credentials.accessToken
+  
+  if (!shopDomain) {
+    throw new Error("Shop domain (shop_url) is required")
+  }
+  
+  if (!accessToken) {
+    throw new Error("Access token is required")
+  }
+  
+  // Clean shop domain - handle various formats
+  let cleanShopDomain = shopDomain
+  
+  // Remove protocol if present
+  cleanShopDomain = cleanShopDomain.replace(/^https?:\/\//, '')
+  
+  // Remove .myshopify.com if present
+  cleanShopDomain = cleanShopDomain.replace('.myshopify.com', '')
+  
+  // Remove trailing slash
+  cleanShopDomain = cleanShopDomain.replace(/\/$/, '')
+  
+  console.log("Original shop domain:", shopDomain)
+  console.log("Cleaned shop domain:", cleanShopDomain)
+  
   return new ShopifyRestClient({
-    shopDomain: credentials.shop_url || credentials.shopDomain,
-    accessToken: credentials.access_token || credentials.accessToken,
-    apiVersion: credentials.api_version || credentials.apiVersion,
+    shopDomain: cleanShopDomain,
+    accessToken,
+    apiVersion: credentials.api_version || credentials.apiVersion || "2024-01",
   })
 }

@@ -26,9 +26,19 @@ export async function POST(req: NextRequest) {
 
   try {
     const creds = channel.api_credentials as any
+    
+    // Validate credentials
+    if (!creds || !creds.shop_url || !creds.access_token) {
+      console.error("Invalid Shopify credentials:", { channelId, creds })
+      return NextResponse.json({ error: "Invalid Shopify credentials" }, { status: 400 })
+    }
+    
+    console.log("Starting Shopify inventory sync for channel:", channelId)
     const { count } = await syncShopifyInventoryForChannel(channelId, creds)
+    console.log("Shopify inventory sync completed:", { channelId, count })
     return NextResponse.json({ ok: true, count })
   } catch (e: any) {
+    console.error("Shopify inventory sync error:", { channelId, error: e.message, stack: e.stack })
     return NextResponse.json({ error: e?.message || "Sync failed" }, { status: 500 })
   }
 }
